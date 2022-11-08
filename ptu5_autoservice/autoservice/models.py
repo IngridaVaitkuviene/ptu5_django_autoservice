@@ -43,6 +43,16 @@ class Order(models.Model):
     date = models.DateField(_("order date"), auto_now_add=True)
     total_sum = models.DecimalField(_("total amout"), max_digits=10, decimal_places=2, default=0)
 
+    def get_total(self):
+        total = 0
+        for line in self.order_lines.all():
+            total += line.total_sum
+        return total
+
+    def save(self, *args, **kwargs):
+        self.total_sum = self.get_total()
+        super().save(*args, **kwargs)
+
     def __str__(self) -> str:
         return f"{self.date}: {self.total_sum}, {self.car.plate_number} {self.car.owner}"
 
@@ -61,6 +71,10 @@ class OrderLine(models.Model):
     )
     quantity = models.IntegerField(_("quantity"))
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
+
+    @property
+    def total_sum(self):
+        return self.quantity * self.price
 
     def __str__(self) -> str:
         return f'{self.service.name}: {self.quantity} x {self.price}'
