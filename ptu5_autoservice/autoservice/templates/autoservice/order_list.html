@@ -1,7 +1,22 @@
 {% extends 'autoservice/base.html' %}
 {% block title %}Orders in {{ block.super }}{% endblock title %}
 {% block content %} 
-    <h1>{{ orders_count }} Orders</h1> 
+    <h1>{{ orders_count }} Orders</h1>
+    <div class="paginator">
+        {% if page_obj.has_previous %}
+            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page=1">&#171;</a>
+            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.previous_page_number }}">&#8249;</a>
+        {% endif %}
+        {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}
+            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.next_page_number }}">&#8250;</a>
+            <a href="?{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}page={{ page_obj.paginator.num_pages }}">&#187;</a>
+        {% endif %}
+        <form action="{% url 'orders' %}" method="get">
+            <input type="text" name="search" value="{{ request.GET.search}}">
+            <button type="submit">search</button>
+        </form>
+    </div> 
     <ul>
         {% for order in order_list %}
             <li><a href="{% url 'order' order.id %}">{{ order }}</a></li>
