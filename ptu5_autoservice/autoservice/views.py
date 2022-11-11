@@ -35,20 +35,19 @@ class OrderlistView(ListView):
     paginate_by = 3
     template_name = 'autoservice/order_list.html'
 
-
-    # kodel neveikia sitas def? klaida meta su get_context_data?????
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     search = self.request.GET.get('search')
-    #     if search:
-    #         queryset = queryset.filter(Q(title__icontains=search)| Q(summary__icontains=search))
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(Q(car__owner__icontains=search) | Q(car__plate_number__icontains=search) | Q(car__VIN_code__icontains=search))
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['orders_count'] = self.get_queryset().count()
         return context
 
-
+    
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'autoservice/order_detail.html'
