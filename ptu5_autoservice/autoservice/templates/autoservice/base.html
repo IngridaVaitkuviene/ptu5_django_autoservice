@@ -13,6 +13,8 @@
         <div class="container">
             {% block nav %}
             <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'cars' %}">Cars</a>
+            <a href="{% url 'orders' %}">Orders</a>
             <a href="{% url 'admin:index' %}">Admin</a>
             {% endblock nav %}
         </div>
