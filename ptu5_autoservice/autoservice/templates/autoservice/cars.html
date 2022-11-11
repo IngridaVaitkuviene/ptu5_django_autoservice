@@ -1,0 +1,10 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}Cars in {{ block.super }}{% endblock title %}
+{% block content %} 
+    <h1>Cars</h1> 
+    <ul>
+        {% for car in cars %}
+            <li><a href="{% url 'car_info' car.id %}">{{ car }}</a></li>
+        {% endfor %}
+    <ul>
+{% endblock content %}
