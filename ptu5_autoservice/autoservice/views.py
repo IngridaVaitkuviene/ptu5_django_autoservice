@@ -21,14 +21,13 @@ def index(request):
     return render(request, 'autoservice/index.html', context)
 
 def cars(request):
-    paginator = Paginator(Car.objects.all(), 2)
+    paginator = Paginator(Car.objects.all(), 3)
     page_number = request.GET.get('page')
     paged_cars = paginator.get_page(page_number)
     return render(request, 'autoservice/cars.html', {'cars': paged_cars})
 
 def car_info(request, car_id):
     return render(request, 'autoservice/car_info.html', {'car': get_object_or_404(Car, id=car_id)})
-
 
 class OrderlistView(ListView):
     model = Order
@@ -39,7 +38,12 @@ class OrderlistView(ListView):
         queryset = super().get_queryset()
         search = self.request.GET.get('search')
         if search:
-            queryset = queryset.filter(Q(car__owner__icontains=search) | Q(car__plate_number__icontains=search) | Q(car__VIN_code__icontains=search))
+            queryset = queryset.filter(
+                Q(car__owner__icontains=search) | 
+                Q(car__plate_number__icontains=search) | 
+                Q(car__VIN_code__icontains=search)
+                # Q(car_model___model__icontains=search)
+            )
         return queryset
 
     def get_context_data(self, **kwargs):

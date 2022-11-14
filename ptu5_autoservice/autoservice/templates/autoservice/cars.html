@@ -1,4 +1,5 @@
 {% extends 'autoservice/base.html' %}
+{% load static %}
 {% block title %}Cars in {{ block.super }}{% endblock title %}
 {% block content %} 
     <h1>Cars</h1>
@@ -13,9 +14,18 @@
             {% endfor %}
         {% endif %}
     </div> 
-    <ul>
+    <ul class="car_list">
         {% for car in cars %}
-            <li><a href="{% url 'car_info' car.id %}">{{ car }}</a></li>
+            <li class='cars'>
+                <a href="{% url 'car_info' car.id %}">
+                    {% if car.cover %}
+                        <img src="{{ car.cover.url }}">
+                    {% else %}
+                        <img src="{% static 'autoservice/img/No-Image-Found.png' %}">
+                    {% endif %}
+                    <h3>{{ car }}</h3>
+                </a>
+            </li>
         {% endfor %}
     <ul>
 {% endblock content %}

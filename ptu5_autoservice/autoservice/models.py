@@ -9,6 +9,7 @@ class CarModel(models.Model):
     make = models.CharField(_("make"), max_length=50)
     model = models.CharField(_("model"), max_length=50)
     engine = models.CharField(_("engine"), max_length=50)
+    
 
     class Meta:
         verbose_name = 'Car model'
@@ -28,6 +29,7 @@ class Car(models.Model):
     plate_number = models.CharField(_("plate number"), max_length=50)
     VIN_code = models.CharField(_("VIN"), max_length=17, help_text='Vehicle identification number')
     owner = models.CharField(_("owner name"), max_length=100)
+    cover = models.ImageField("cover", upload_to='covers', blank=True, null=True)
     
     class Meta:
         verbose_name = 'Car'
@@ -50,6 +52,15 @@ class Service(models.Model):
 
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ('n', _('new')),
+        ('a', _('advance payment taken')),
+        ('o', _('ordered parts')),
+        ('w', _('working')),
+        ('d', _('done')),
+        ('c', _('cancelled')),
+        ('p', _('paid')),
+    )
     car = models.ForeignKey(
         Car, 
         verbose_name=_("car"), 
@@ -58,6 +69,8 @@ class Order(models.Model):
     )
     date = models.DateField(_("order date"), auto_now_add=True, editable=False)
     total_sum = models.DecimalField(_("total amount"), max_digits=10, decimal_places=2, default=0)
+    status = models.CharField(_("status"), max_length=1, choices=STATUS_CHOICES, default='n')
+    estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
 
     class Meta:
         verbose_name = 'Order'
@@ -90,7 +103,7 @@ class OrderLine(models.Model):
         on_delete=models.CASCADE,
         related_name='order_lines'
     )
-    quantity = models.IntegerField(_("quantity"))
+    quantity = models.IntegerField(_("quantity"), default=1)
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
 
     class Meta:
