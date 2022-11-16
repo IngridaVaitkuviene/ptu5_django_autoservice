@@ -15,12 +15,12 @@ class OrderLineInLine(admin.TabularInline):
     can_delete = False
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('date', 'total_sum', 'car')
+    list_display = ('date', 'total_sum', 'car', 'status', 'estimate_date')
     inlines = (OrderLineInLine, )
     readonly_fields = ('date',)
 
     fieldsets = (
-        ('Car', {'fields': ('car',)}),
+        ('Car', {'fields': ('car', 'total_sum', 'status', 'estimate_date')}),
         ('Date', {'fields': ('date',)})
     )
 
