@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import date
+from django.contrib.auth import get_user_model
+from django.utils.timezone import datetime
 
 class CarModel(models.Model):
     YEARS_CHOICES = ((years, str(years)) for years in reversed(range(1900, date.today().year+1)))
@@ -71,6 +73,19 @@ class Order(models.Model):
     total_sum = models.DecimalField(_("total amount"), max_digits=10, decimal_places=2, default=0)
     status = models.CharField(_("status"), max_length=1, choices=STATUS_CHOICES, default='n')
     estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
+    reader = models.ForeignKey(
+        get_user_model(),
+        verbose_name='reader',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='ordered',
+    )
+
+    @property
+    def is_overdue(self):
+        if self.estimate_date and self.estimate_date < datetime.date(datetime.now()):
+            return True
+        return False
 
     class Meta:
         verbose_name = 'Order'
