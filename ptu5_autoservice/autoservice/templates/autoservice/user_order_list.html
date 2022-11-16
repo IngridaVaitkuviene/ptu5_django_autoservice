@@ -1,0 +1,17 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}My Orders in {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>My Orders</h1>
+<div class="table-grid my-orders-table">
+    <div class="table-grid-cell dark">License plate number</div>
+    <div class="table-grid-cell center dark">Order date</div>
+    <div class="table-grid-cell center dark">Estimate Date</div>
+    <div class="table-grid-cell center dark">Total amount</div>
+    {% for order in order_list %}
+    <div class="table-grid-cell">{{ order.car.plate_number }}</div>
+        <div class="table-grid-cell center">{{ order.date }}</div>
+        <div class="table-grid-cell center{% if order.is_overdue %} overdue{% endif %}">{{ order.estimate_date }}</div>
+        <div class="table-grid-cell center">{{ order.total_sum }}</div>
+    {% endfor %}
+</div>
+{% endblock content %}

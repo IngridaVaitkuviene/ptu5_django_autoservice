@@ -78,7 +78,6 @@ class Order(models.Model):
         verbose_name='reader',
         on_delete=models.SET_NULL,
         null=True, blank=True,
-        related_name='ordered',
     )
 
     @property

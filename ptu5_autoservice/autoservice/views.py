@@ -4,6 +4,7 @@ from . models import Car, Service, Order
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def index(request):
@@ -58,3 +59,14 @@ class OrderlistView(ListView):
 class OrderDetailView(DetailView):
     model = Order
     template_name = 'autoservice/order_detail.html'
+
+
+class UserOrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'autoservice/user_order_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(reader=self.request.user)
+        return queryset
