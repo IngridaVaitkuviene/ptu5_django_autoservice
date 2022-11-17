@@ -130,6 +130,21 @@ table {
     grid-template-columns: 3fr 2fr 2fr 2fr;
 }
 
+.form-grid {
+    grid-template-columns: 10rem auto;
+}
+
+.form-grid div {
+    display: inline-block;
+    padding: 0.5rem;
+    align-self: center;
+    justify-self: stretch;
+}
+
+.form-grid input {
+    width: 50%;
+}
+
 .table-grid-cell {
     display: inline-block;
     align-self: stretch;
@@ -153,4 +168,41 @@ table {
     background-color: #f99;
     color: #900;
     font-weight: bold;
+}
+
+.alert {
+    padding: 0.5rem 1rem;
+    border: 3px solid #999;
+}
+
+.alert-error {
+    background-color: #f99;
+    color: #900;
+    border-color: #900;
+}
+
+.alert-success {
+    background-color: #afa;
+    color: #070;
+    border-color: #070;
+}
+
+
+.float-right {
+    float: right;
+}
+
+.book-review {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin: 0;
+}
+
+.review-form label {
+    display: none;
+}
+
+.review-form {
+    background-color: rgba(255, 204, 168, 0.3);
+    border-bottom: 3px solid #ccc;
 }
