@@ -6,4 +6,7 @@
     <p>Car model: {{ car.car_model }}</p>
     <p>Plate number: {{ car.plate_number }}</p>
     <p>VIN: {{ car.VIN_code }}</p>
+    <div class='description'>
+        {{ car.description|safe }}
+    </div>
 {% endblock content %}

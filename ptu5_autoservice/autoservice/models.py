@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from datetime import date
 from django.contrib.auth import get_user_model
 from django.utils.timezone import datetime
+from tinymce.models import HTMLField
 
 class CarModel(models.Model):
     YEARS_CHOICES = ((years, str(years)) for years in reversed(range(1900, date.today().year+1)))
@@ -31,7 +32,8 @@ class Car(models.Model):
     plate_number = models.CharField(_("plate number"), max_length=50)
     VIN_code = models.CharField(_("VIN"), max_length=17, help_text='Vehicle identification number')
     owner = models.CharField(_("owner name"), max_length=100)
-    cover = models.ImageField("cover", upload_to='covers', blank=True, null=True)
+    cover = models.ImageField(_("cover"), upload_to='covers', blank=True, null=True)
+    description = HTMLField(_("description"), max_length=1000, default='---')
     
     class Meta:
         verbose_name = 'Car'
