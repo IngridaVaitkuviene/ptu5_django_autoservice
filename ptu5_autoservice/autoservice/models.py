@@ -132,3 +132,25 @@ class OrderLine(models.Model):
 
     def __str__(self) -> str:
         return f'{self.service.name}: {self.quantity} x {self.price}'
+
+
+class OrderReview(models.Model):
+    order = models.ForeignKey(
+        Order, verbose_name="order", 
+        on_delete=models.CASCADE, 
+        related_name='reviews',
+    )
+    owner = models.ForeignKey(
+        get_user_model(), 
+        verbose_name="owner", 
+        on_delete=models.CASCADE, 
+        related_name='order_reviews',
+    )
+    created_at = models.DateTimeField("created at", auto_now_add=True)
+    content = models.TextField("content", max_length=10000)
+
+    def __str__(self) -> str:
+        return f"{self.owner} on {self.order} at {self.created_at}"
+
+    class Meta:
+        ordering = ('-created_at', )

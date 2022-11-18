@@ -12,4 +12,24 @@
         {% endfor %}
         </ul>
     </p>
+    <h2>Comments</h2> 
+    {% if user.is_authenticated %}
+        <div class="review-form">
+            <p>Here You could leave your comment.</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <p><button type="submit">Post comment</button></p>
+            </form>
+        </div> 
+    {% endif %}
+    {% if order.reviews %}
+        {% for review in order.reviews.all %}
+            <div class="order-review">
+                <h4>{{ review.owner }}
+                    <span class="float-right">{{ review.created_at }}</span></h4>
+                <p>{{ review.content}}</p>
+            </div>
+        {% endfor %}
+    {% endif %} 
 {% endblock content %}

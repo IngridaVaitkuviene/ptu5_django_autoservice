@@ -5,6 +5,10 @@ from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
+from .forms import OrderReviewForm
+from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -56,9 +60,36 @@ class OrderlistView(ListView):
         return context
 
     
-class OrderDetailView(DetailView):
+class OrderDetailView(FormMixin,DetailView):
     model = Order
     template_name = 'autoservice/order_detail.html'
+    form_class = OrderReviewForm
+
+    def get_success_url(self):
+        return reverse('order', kwargs={'pk': self.get_object().id})
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            messages.error(self.request, "You are commenting too much!")
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.order = self.get_object()
+        form.owner = self.request.user
+        form.save()
+        messages.success(self.request, 'Your comment has been posted')
+        return super().form_valid(form)
+
+    def get_initial(self):
+        return {
+            'order': self.get_object(),
+            'owner': self.request.user,
+        }
+
 
 
 class UserOrderListView(LoginRequiredMixin, ListView):

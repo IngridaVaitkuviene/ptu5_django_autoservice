@@ -187,12 +187,11 @@ table {
     border-color: #070;
 }
 
-
 .float-right {
     float: right;
 }
 
-.book-review {
+.order-review {
     display: block;
     padding: 0.5rem 1rem;
     margin: 0;
