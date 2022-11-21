@@ -1,12 +1,13 @@
 {% extends 'autoservice/base.html' %}
+{% load static %}
 {% block title %}{{ block.super }} {{ user }} profile{% endblock title %}
 {% block content %}
 <h1>{{ user }} profile</h1>
 <div class="flex-profile">
     {% if user.profile and user.profile.photo %}
-        <div>
             <img src="{{ user.profile.photo.url}}" class="user-profile-photo">
-        </div>
+    {% else %}
+            <img src="{% static 'autoservice/img/no_profile_photo.png' %}" class="user-profile-photo">
     {% endif %}
     <div class="spacer">
         {% if user.first_name or user.last_name %}
