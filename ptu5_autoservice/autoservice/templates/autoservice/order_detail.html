@@ -1,4 +1,5 @@
 {% extends 'autoservice/base.html' %}
+{% load static %}
 {% block title %}{{ object }}{% endblock title %}
 {% block content %}
     <h1>Order detail: </h1>
@@ -26,7 +27,12 @@
     {% if order.reviews %}
         {% for review in order.reviews.all %}
             <div class="order-review">
-                <h4>{{ review.owner }}
+                <h4>{% if review.owner.profile.photo %}
+                        <img src="{{ review.owner.profile.photo.url }}">
+                    {% else %}
+                        <img src="{% static 'autoservice/img/no_profile_photo.png' %}">
+                    {% endif %}
+                    {{ review.owner }}
                     <span class="float-right">{{ review.created_at }}</span></h4>
                 <p>{{ review.content}}</p>
             </div>
