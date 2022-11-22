@@ -1,0 +1,13 @@
+{% extends 'autoservice/base.html' %}
+{% block title %}Cancel order in {{ block.super }} {% endblock title %}
+{% block content %}
+<h1>{% if object.status == 'a' %}Paying{% else %}Cancel{% endif %} order</h1>
+<form method="post" action="">
+    {% csrf_token %}
+    <p>Are you sure you want to {% if object.status == 'a' %}pay {% else %}cancel order {% endif %}'{{ object.date }} {{ object.car }}' ?</p>
+    <p>
+        <button type="submit" class="button">YES</button>
+        <a href="{% url 'user_orders' %}" class="button">No</a>
+    </p>
+</form>
+{% endblock content %}
