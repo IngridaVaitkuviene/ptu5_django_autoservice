@@ -1,26 +1,26 @@
 {% extends 'autoservice/base.html' %}
-{% load static %}
+{% load static i18n%}
 {% block title %}{{ object }}{% endblock title %}
 {% block content %}
-    <h1>Order detail: </h1>
-    <p>Date: {{ order.date }}</p>
-    <p>Total sum: {{ order.total_sum }}</p>
-    <p>Car: {{ order.car }}</p>
-    <p>Service:
+    <h1>{% trans "Order detail" %}: </h1>
+    <p>{% trans "Date" %}: {{ order.date }}</p>
+    <p>{% trans "Total sum" %}: {{ order.total_sum }}</p>
+    <p>{% trans "Car" %}: {{ order.car }}</p>
+    <p>{% trans "Service" %}:
         <ul>
         {% for order_line in order.order_lines.all %}
             <li>{{ order_line }}</li>
         {% endfor %}
         </ul>
     </p>
-    <h2>Comments</h2> 
+    <h2>{% trans "Comments" %}</h2> 
     {% if user.is_authenticated %}
         <div class="review-form">
-            <p>Here You could leave your comment.</p>
+            <p>{% trans "Here You could leave your comment" %} .</p>
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <p><button type="submit">Post comment</button></p>
+                <p><button type="submit">{% trans "Post comment" %}</button></p>
             </form>
         </div> 
     {% endif %}

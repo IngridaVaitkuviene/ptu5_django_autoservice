@@ -1,11 +1,12 @@
 {% extends 'autoservice/base.html' %}
-{% block title %}Payment in advance {{ block.super }}{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Payment in advance" %} {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>{% if action %}{{ action }}{% else %}Creat new{% endif %} order</h1>
+<h1>{% if action %}{{ action }}{% else %}{% trans "Creat new" %}{% endif %} {% trans "order" %}</h1>
 <form action="" method="post">
     {% if order %}<p>{{ order.car }}</p>{% endif %}
     {% csrf_token %}
     {{ form.as_p }}
-    <p><button type="submit">{% if action %}{{ action }}{% else %}Creat new{% endif %} order</button></p>
+    <p><button type="submit">{% if action %}{{ action }}{% else %}{% trans "Creat new" %}{% endif %} {% trans "order" %}</button></p>
 </form>
 {% endblock content %}

@@ -1,11 +1,12 @@
 {% extends 'autoservice/base.html' %}
-{% block title %}Welcome to {{ block.super }}{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Welcome to" %} {{ block.super }}{% endblock title %}
 {% block content %}   
-<h1>Autoservice</h1>
+<h1>{% trans "Autoservice" %}</h1>
 <ul>
-    <li>Services: {{ service_count }}</li>
-    <li>Total orders: {{ order_count }}</li>
-    <li>Cars: {{ car_count }}</li>
-    <li>Visit this session: {{ visits_count }}</li>
+    <li>{% trans "Services" %}: {{ service_count }}</li>
+    <li>{% trans "Total orders" %}: {{ order_count }}</li>
+    <li>{% trans "Cars" %}: {{ car_count }}</li>
+    <li>{% trans "Visit this session" %}: {{ visits_count }}</li>
 </ul>
 {% endblock content %} 

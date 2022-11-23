@@ -15,8 +15,8 @@ class CarModel(models.Model):
     
 
     class Meta:
-        verbose_name = 'Car model'
-        verbose_name_plural = 'Car models'
+        verbose_name = _('Car model')
+        verbose_name_plural = _('Car models')
 
     def __str__(self) -> str:
         return f'{self.make}, {self.model}, {self.engine}, {self.year}'
@@ -36,8 +36,8 @@ class Car(models.Model):
     description = HTMLField(_("description"), max_length=1000, default='---')
     
     class Meta:
-        verbose_name = 'Car'
-        verbose_name_plural = 'Cars'
+        verbose_name = _('Car')
+        verbose_name_plural = _('Cars')
 
     def __str__(self) -> str:
         return f'{self.car_model.make}, {self.car_model.model}, {self.plate_number}, {self.owner}'
@@ -48,8 +48,8 @@ class Service(models.Model):
     price = models.DecimalField(_("service price"), max_digits=10, decimal_places=2)
 
     class Meta:
-        verbose_name = 'Service'
-        verbose_name_plural = 'Services'
+        verbose_name = _('Service')
+        verbose_name_plural = _('Services')
 
     def __str__(self) -> str:
         return f'{self.name}- {self.price}'
@@ -77,7 +77,7 @@ class Order(models.Model):
     estimate_date = models.DateField(_("estimate date"), null=True, blank=True)
     reader = models.ForeignKey(
         get_user_model(),
-        verbose_name='reader',
+        verbose_name=_('reader'),
         on_delete=models.SET_NULL,
         null=True, blank=True,
     )
@@ -89,8 +89,8 @@ class Order(models.Model):
         return False
 
     class Meta:
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
 
     def get_total(self):
         total = 0
@@ -123,8 +123,8 @@ class OrderLine(models.Model):
     price = models.DecimalField(_("price"), max_digits=10, decimal_places=2)
 
     class Meta:
-        verbose_name = 'Order line'
-        verbose_name_plural = 'Order lines'
+        verbose_name = _('Order line')
+        verbose_name_plural = _('Order lines')
 
     @property
     def total_sum(self):
@@ -136,18 +136,18 @@ class OrderLine(models.Model):
 
 class OrderReview(models.Model):
     order = models.ForeignKey(
-        Order, verbose_name="order", 
+        Order, verbose_name=_("order"), 
         on_delete=models.CASCADE, 
         related_name='reviews',
     )
     owner = models.ForeignKey(
         get_user_model(), 
-        verbose_name="owner", 
+        verbose_name=_("owner"), 
         on_delete=models.CASCADE, 
         related_name='order_reviews',
     )
-    created_at = models.DateTimeField("created at", auto_now_add=True)
-    content = models.TextField("content", max_length=10000)
+    created_at = models.DateTimeField(_("created at"), auto_now_add=True)
+    content = models.TextField(_("content"), max_length=10000)
 
     def __str__(self) -> str:
         return f"{self.owner} on {self.order} at {self.created_at}"

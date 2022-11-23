@@ -9,8 +9,8 @@ from django.views.generic.edit import FormMixin
 from .forms import OrderReviewForm, UserOrderForm, UserOrderUpdateForm
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
-# Create your views here.
 def index(request):
     # return HttpResponse("Hello, the autoservice is at Your services!")
     service_count = Service.objects.count()
@@ -74,14 +74,14 @@ class OrderDetailView(FormMixin,DetailView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            messages.error(self.request, "You are commenting too much!")
+            messages.error(self.request, _("You are commenting too much!"))
             return self.form_invalid(form)
 
     def form_valid(self, form):
         form.order = self.get_object()
         form.owner = self.request.user
         form.save()
-        messages.success(self.request, 'Your comment has been posted')
+        messages.success(self.request, _("Your comment has been posted"))
         return super().form_valid(form)
 
     def get_initial(self):
@@ -111,7 +111,7 @@ class UserOrderCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.reader = self.request.user
         form.instance.status = 'n'
-        messages.success(self.request, 'New order created.')
+        messages.success(self.request, _("New order created."))
         return super().form_valid(form)
 
 
@@ -125,7 +125,7 @@ class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         form.instance.reader = self.request.user
         form.instance.status = 'a'
-        messages.success(self.request, 'Order updated/Paid in advance.')
+        messages.success(self.request, _("Order updated/Paid in advance."))
         return super().form_valid(form)
 
     def test_func(self):
@@ -135,9 +135,9 @@ class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.get_object().status == 'n':
-            context['action'] = 'Pay'
+            context['action'] = _('Pay')
         else:
-            context['action'] = 'New'
+            context['action'] = _('New')
         return context
 
 
@@ -153,7 +153,7 @@ class UserOrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def form_valid(self, form):
         order = self.get_object()
         if order.status == 'a':
-            messages.success(self.request, 'Order paid in advanced')
+            messages.success(self.request, _('Order paid in advanced'))
         else:
-            messages.success(self.request, 'Order cancelled.')
+            messages.success(self.request, _('Order cancelled.'))
         return super().form_valid(form)
